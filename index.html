@@ -5,9 +5,98 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./CSS/normalize.css">
+    <link rel="stylesheet" href="./css/style.css">
   </head>
   <body>
-    
-    <script type="module" src="/main.js"></script>
+    <main>
+      <div class="content-wrapper">
+        <section class="active__notes">
+          <div class="notes__wrapper">
+            <div class="notes__head">
+              <div class="notes__head-name">Name</div>
+              <div class="notes__head-content-columns">
+                <div>Created</div>
+                <div>Category</div>
+                <div>Content</div>
+                <div>Dates</div>
+              </div>
+              <div class="notes__head-management">
+                <div>
+                  <img src="./public/listItemArchive.png" alt="">
+                </div>
+                <div>
+                  <img src="./public/listItemRemove.png" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="notes__list">
+              <div class="notes__list-item">
+                <div class="list-title">Shopping list</div>
+                <div class="note__content-wrapper">
+                  <div class="note__create-date">April 20, 2021</div>
+                  <div class="note__category">Task</div>
+                  <div class="note__content">Tomatoes, bread</div>
+                  <div class="note__dates"></div>
+                </div>
+                <div class="note__management">
+                  <div><img src="./public/listItemChange.png" alt="Change note"></div>
+                  <div><img src="./public/listItemArchive.png" alt="Archive note"></div>
+                  <div><img src="./public/listItemRemove.png" alt="Remove note"></div>
+                </div>
+              </div>
+              <div class="notes__list-item">
+                <div class="list-title">The theory of evolution</div>
+                <div class="note__content-wrapper">
+                  <div class="note__create-date">April 21, 2021</div>
+                  <div class="note__category">Random Thought</div>
+                  <div class="note__content">The evolution...</div>
+                  <div class="note__dates"></div>
+                </div>
+                <div class="note__management">
+                  <div><img src="./public/listItemChange.png" alt="Change note"></div>
+                  <div><img src="./public/listItemArchive.png" alt="Archive note"></div>
+                  <div><img src="./public/listItemRemove.png" alt="Remove note"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button>Create note</button>
+        </section>
+        <section class="summary__table">
+          <div class="notes__wrapper">
+            <div class="summary__head">
+              <div class="summary__head-name">Note Category</div>
+              <div class="summary__head-status">
+                <div class="summary__head-status-active">Active</div>
+                <div class="summary__head-status-archived">Archived</div>
+              </div>
+            </div>
+            <div class="summary__list">
+              <div class="summary__list-item">
+                <div class="list-title">Task</div>
+                <div>14</div>
+                <div>7</div>
+              </div>
+              <div class="summary__list-item">
+                <div class="list-title">Random Thought</div>
+                <div>28</div>
+                <div>3</div>
+              </div>
+              <div class="summary__list-item">
+                <div class="list-title">Idea</div>
+                <div>5</div>
+                <div>6</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="https://kit.fontawesome.com/def6968b68.js" crossorigin="anonymous"></script>
+    <script type="module" src="/Script/index.js"></script>
   </body>
 </html>

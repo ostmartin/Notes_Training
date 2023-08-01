@@ -1,0 +1,133 @@
+:root{
+    --main-font-size: 10px;
+    --header-background-color: rgb(136, 133, 133);
+    --list-item-background-color: rgb(209, 209, 249);
+}
+
+html{
+    font-size: var(--main-font-size);
+    font-family: 'Roboto', sans-serif;
+}
+
+.content-wrapper{    
+    width: 90vw;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    margin: 5rem auto;
+    gap: 7rem;
+}
+
+section{
+    position: relative;
+}
+
+.notes__head,
+.notes__head-content-columns,
+.notes__head-management,
+.notes__list-item,
+.note__management,
+.note-content,
+.note__content-wrapper,
+.summary__head,
+.summary__head-status,
+.summary__list-item {
+    /* width: 100%; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+}
+
+.notes__list-item,
+.summary__list-item{
+    padding: 1rem 2rem 1rem 2rem;
+    margin-top: 2rem;
+    font-size: 2rem;
+    background-color: var(--list-item-background-color);
+    color: grey;
+    border-radius: 5px;
+}
+
+.notes__head,
+.summary__head{
+    background-color: var(--header-background-color);
+    height: 4rem;
+    border-radius: 5px;
+    color: white;
+    font-size: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.notes__head-name,
+.notes__head-management,
+.list-title,
+.note__management{
+    width: 20%;
+}
+
+.notes__head-content-columns,
+.note__content-wrapper{
+    width: 60%;
+}
+
+.notes__head-content-columns div,
+.note__content-wrapper div {
+    width: 25%;
+}
+
+.notes__head-management,
+.note__management{
+    justify-content: end;
+    gap: 0.5rem;
+}
+
+
+.list-title{
+    color: black;
+    /* text-align: center; */
+}
+
+.summary__list-item > div{
+    width: 50%;
+}
+
+.summary__head > div:nth-child(1){
+    width: 30%;
+}
+
+.summary__head > div:nth-child(2){
+    width: 70%;
+}
+
+.summary__head-status div{
+    flex-grow: 1;
+    padding: 0 1rem 0 1rem;
+}
+
+.active__notes img{
+    scale: 0.8;
+}
+
+.notes__list-item:hover{
+    cursor: pointer;
+}
+
+button{
+    font-size: 1.7rem;
+    padding-inline: 2rem;
+    padding-block: 0.5rem;
+    margin-top: 2rem;
+    border-radius: 5px;
+    position: absolute;
+    right: 0%;
+    bottom: -20%;
+}
+
+button:hover{
+    cursor: pointer;
+}
