@@ -25,10 +25,10 @@
                 <div>Dates</div>
               </div>
               <div class="notes__head-management">
-                <div>
+                <div id="openArchive">
                   <img src="./public/listItemArchive.png" alt="">
                 </div>
-                <div>
+                <div id="openBin">
                   <img src="./public/listItemRemove.png" alt="">
                 </div>
               </div>
@@ -43,9 +43,9 @@
                   <div class="note__dates"></div>
                 </div>
                 <div class="note__management">
-                  <div><img src="./public/listItemChange.png" alt="Change note"></div>
-                  <div><img src="./public/listItemArchive.png" alt="Archive note"></div>
-                  <div><img src="./public/listItemRemove.png" alt="Remove note"></div>
+                  <div class="edit__note"><img src="./public/listItemChange.png" alt="Change note"></div>
+                  <div class="archive__note"><img src="./public/listItemArchive.png" alt="Archive note"></div>
+                  <div class="remove__note"><img src="./public/listItemRemove.png" alt="Remove note"></div>
                 </div>
               </div>
               <div class="notes__list-item">
@@ -57,14 +57,14 @@
                   <div class="note__dates"></div>
                 </div>
                 <div class="note__management">
-                  <div><img src="./public/listItemChange.png" alt="Change note"></div>
+                  <div class="edit__note"><img src="./public/listItemChange.png" alt="Change note"></div>
                   <div><img src="./public/listItemArchive.png" alt="Archive note"></div>
                   <div><img src="./public/listItemRemove.png" alt="Remove note"></div>
                 </div>
               </div>
             </div>
           </div>
-          <button>Create note</button>
+          <button id="createNewNote">Create note</button>
         </section>
         <section class="summary__table">
           <div class="notes__wrapper">
@@ -95,35 +95,52 @@
           </div>
         </section>
       </div>
-      <div class="modal create__note hide">
-        <div class="create__note-window">
+      <div class="modal hide">
+        <div class="modal__content-wrapper">
           <div class="close__modal">&times;</div>
-          <form id="creation_form" name="new_note">
-            <div class="create__note-title">
-              <p>Name:</p>
-              <input form="new_note" class="create__note-title-input" required></input>
+          <div class="create__form-wrapper hide">
+            <form id="creation_form" action="#">
+              <div class="create__note-title">
+                <p>Name:</p>
+                <input type="text" name="name" class="create__note-title-input" placeholder="Title" required></input>
+              </div>
+              <div class="create__note-content">
+                <p>Description:</p>
+                <textarea name="content" type="text" class="create__note-content-input" placeholder="Some thoughts..." required></textarea>
+              </div>
+              <div class="create__note-category">
+                <p>Choose category</p>
+                <select name="category">
+                  <option value="Task">Task</option>
+                  <option value="Idea">Idea</option>
+                  <option value="Random thought">Random thought</option>
+                </select>
+              </div>
+              <button id="create" class="create__note-btn">Add note</button>
+              <!-- <input id="edit" type="button" value="Change" class="create__note-btn"> -->
+            </form>
+          </div>
+          <div class="notes__list bin hide">
+            <div class="notes__list-item">
+              <div class="list-title">Shopping list</div>
+              <div class="note__content-wrapper">
+                <div class="note__create-date">April 20, 2021</div>
+                <div class="note__category">Task</div>
+                <div class="note__content">Tomatoes, bread</div>
+                <div class="note__dates"></div>
+              </div>
             </div>
-            <div class="create__note-content">
-              <p>Description:</p>
-              <textarea form="new_note" class="create__note-content-input" required></textarea>
+            <div class="notes__list-item">
+              <div class="list-title">The theory of evolution</div>
+              <div class="note__content-wrapper">
+                <div class="note__create-date">April 21, 2021</div>
+                <div class="note__category">Random Thought</div>
+                <div class="note__content">The evolution...</div>
+                <div class="note__dates"></div>
+              </div>
             </div>
-            <div class="create__note-category">
-              <p>Choose category</p>
-              <select name="new_note">
-                <option value="1">Task</option>
-                <option value="2">Idea</option>
-                <option value="3">Random thought</option>
-              </select>
-            </div>
-            <input id="create" type="button" value="Create" class="create__note-btn">
-            <input id="change" type="button" value="Change" class="create__note-btn hide">
-          </form>
-        </div>
-      </div>
-      <div class="modal notes__archive hide">
-        <div class="notes__archive-window">
-          <div class="close__modal">&times;</div>
-          <div class="notes__list">
+          </div>
+          <div class="notes__list archive hide">
             <div class="notes__list-item">
               <div class="list-title">Shopping list</div>
               <div class="note__content-wrapper">
@@ -151,32 +168,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="modal notes__bin hide">
-        <div class="notes__archive-window">
-          <div class="close__modal">&times;</div>
-          <div class="notes__list">
-            <div class="notes__list-item">
-              <div class="list-title">Shopping list</div>
-              <div class="note__content-wrapper">
-                <div class="note__create-date">April 20, 2021</div>
-                <div class="note__category">Task</div>
-                <div class="note__content">Tomatoes, bread</div>
-                <div class="note__dates"></div>
-              </div>
-            </div>
-            <div class="notes__list-item">
-              <div class="list-title">The theory of evolution</div>
-              <div class="note__content-wrapper">
-                <div class="note__create-date">April 21, 2021</div>
-                <div class="note__category">Random Thought</div>
-                <div class="note__content">The evolution...</div>
-                <div class="note__dates"></div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </main>
     <script src="https://kit.fontawesome.com/def6968b68.js" crossorigin="anonymous"></script>

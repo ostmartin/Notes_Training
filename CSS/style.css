@@ -144,7 +144,11 @@ button:hover{
 }
 
 .hide{
-    display: none;
+    display: none !important;
+}
+
+.show{
+    display: block;
 }
 
 .modal{
@@ -155,8 +159,7 @@ button:hover{
     height: 100vh;
 }
 
-.create__note-window,
-.notes__archive-window{
+.modal__content-wrapper{
     width: 60rem;
     height: 50rem;
     background-color: white;
@@ -167,6 +170,8 @@ button:hover{
     transition: all 0.2s;
     border: 2px solid blueviolet;
     border-radius: 10px;
+    padding: 2rem 3rem 2rem 3rem;
+    /* overflow: auto; */
 }
 
 #creation_form{
@@ -199,6 +204,7 @@ button:hover{
     width: 30%;
     margin-inline: auto;
     border-radius: 5px;
+    position: static;
 }
 
 .create__note-btn:hover{
@@ -216,9 +222,4 @@ button:hover{
 .close__modal:hover{
     opacity: 1;
     cursor: pointer;
-}
-
-.notes__archive-window{
-    padding: 2rem 3rem 2rem 3rem;
-    overflow: auto;
 }
