@@ -223,3 +223,7 @@ button:hover{
     opacity: 1;
     cursor: pointer;
 }
+
+#createNewNote{
+    bottom: -5rem;
+}
