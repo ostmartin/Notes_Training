@@ -20,7 +20,8 @@ main{
     height: 100%;
 }
 
-.content-wrapper{    
+.content-wrapper{
+    margin: 0 auto;    
     width: 90vw;
     /* height: fit-content; */
     display: flex;
@@ -97,10 +98,56 @@ section{
     gap: 0.5rem;
 }
 
+.edit{
+    background-image: url('/public/listItemChange.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 4rem;
+    height: 4rem;
+}
+
+.archive{
+    background-image: url('/public/listItemArchive.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 4rem;
+    height: 4rem;
+}
+
+.unarchive{
+    background-image: url('/public/listItemUnarchive.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 4rem;
+    height: 4rem;
+}
+
+.remove{
+    background-image: url('/public/listItemRemove.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 4rem;
+    height: 4rem;
+}
+
+.edit:hover{
+    cursor: pointer;
+}
+
+.archive:hover{
+    cursor: pointer;
+}
+
+.unarchive:hover{
+    cursor: pointer;
+}
+
+.remove:hover{
+    cursor: pointer;
+}
 
 .list-title{
     color: black;
-    /* text-align: center; */
 }
 
 .summary__list-item > div{
@@ -118,14 +165,6 @@ section{
 .summary__head-status div{
     flex-grow: 1;
     padding: 0 1rem 0 1rem;
-}
-
-.active__notes img{
-    scale: 0.8;
-}
-
-.notes__list-item:hover{
-    cursor: pointer;
 }
 
 button{
@@ -202,13 +241,23 @@ button:hover{
 
 .create__note-btn{
     width: 30%;
+    height: fit-content;
     margin-inline: auto;
+    border: none;
     border-radius: 5px;
-    position: static;
+    position: absolute;
+    transition: all 0.2s;
+    background-color: aqua;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, 500%);
 }
 
 .create__note-btn:hover{
     cursor: pointer;
+    background-color: aquamarine;
+    border: none;
+    scale: 1.02;
 }
 
 .close__modal{

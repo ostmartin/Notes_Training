@@ -25,15 +25,11 @@
                 <div>Dates</div>
               </div>
               <div class="notes__head-management">
-                <div id="openArchive">
-                  <img src="./public/listItemArchive.png" alt="">
-                </div>
-                <div id="openBin">
-                  <img src="./public/listItemRemove.png" alt="">
-                </div>
+                <div id="openArchive" class="archive"></div>
+                <div id="openBin" class="remove"></div>
               </div>
             </div>
-            <div class="notes__list">
+            <div id="activeNotesList" class="notes__list">
               <!-- <div class="notes__list-item">
                 <div class="list-title">Shopping list</div>
                 <div class="note__content-wrapper">
@@ -43,9 +39,9 @@
                   <div class="note__dates"></div>
                 </div>
                 <div class="note__management">
-                  <div class="edit__note"><img src="./public/listItemChange.png" alt="Change note"></div>
-                  <div class="archive__note"><img src="./public/listItemArchive.png" alt="Archive note"></div>
-                  <div class="remove__note"><img src="./public/listItemRemove.png" alt="Remove note"></div>
+                  <div id="edit-button" class="edit"></div>
+                  <div id="to__archive-button" class="archive"></div>
+                  <div id="remove-button" class="remove"></div>
                 </div>
               </div>
               <div class="notes__list-item">
@@ -57,9 +53,9 @@
                   <div class="note__dates"></div>
                 </div>
                 <div class="note__management">
-                  <div class="edit__note"><img src="./public/listItemChange.png" alt="Change note"></div>
-                  <div><img src="./public/listItemArchive.png" alt="Archive note"></div>
-                  <div><img src="./public/listItemRemove.png" alt="Remove note"></div>
+                  <div class="edit"></div>
+                  <div class="archive"></div>
+                  <div class="remove"></div>
                 </div>
               </div> -->
             </div>
@@ -78,18 +74,18 @@
             <div class="summary__list">
               <div class="summary__list-item">
                 <div class="list-title">Task</div>
-                <div>14</div>
-                <div>7</div>
+                <div id="taskSumActive">14</div>
+                <div id="taskSumArchive">7</div>
               </div>
               <div class="summary__list-item">
                 <div class="list-title">Random Thought</div>
-                <div>28</div>
-                <div>3</div>
+                <div id="randomSumActive">28</div>
+                <div id="randomSumArchive">3</div>
               </div>
               <div class="summary__list-item">
                 <div class="list-title">Idea</div>
-                <div>5</div>
-                <div>6</div>
+                <div id="ideaSumActive">5</div>
+                <div id="ideaSumArchive">6</div>
               </div>
             </div>
           </div>
@@ -98,11 +94,11 @@
       <div class="modal hide">
         <div class="modal__content-wrapper">
           <div class="close__modal">&times;</div>
-          <div class="create__form-wrapper hide">
-            <form id="creation_form" action="#">
+          <div id="creation_form" class="create__form-wrapper hide">
+            <form action="#">
               <div class="create__note-title">
                 <p>Name:</p>
-                <input type="text" name="name" class="create__note-title-input" placeholder="Title" required></input>
+                <input type="text" name="title" class="create__note-title-input" placeholder="Title" required></input>
               </div>
               <div class="create__note-content">
                 <p>Description:</p>
@@ -120,7 +116,7 @@
               <!-- <input id="edit" type="button" value="Change" class="create__note-btn"> -->
             </form>
           </div>
-          <div class="notes__list bin hide">
+          <div id="modalbin" class="notes__list hide">
             <div class="notes__list-item">
               <div class="list-title">Shopping list</div>
               <div class="note__content-wrapper">
@@ -140,7 +136,7 @@
               </div>
             </div>
           </div>
-          <div class="notes__list archive hide">
+          <div id="modalArchive" class="notes__list hide">
             <div class="notes__list-item">
               <div class="list-title">Shopping list</div>
               <div class="note__content-wrapper">
@@ -150,8 +146,8 @@
                 <div class="note__dates"></div>
               </div>
               <div class="note__management">
-                <div><img src="./public/listItemUnarchive.png" alt="Unarchive note"></div>
-                <div><img src="./public/listItemRemove.png" alt="Remove note"></div>
+                <div class="unarchive"></div>
+                <div class="remove"></div>
               </div>
             </div>
             <div class="notes__list-item">
@@ -163,14 +159,12 @@
                 <div class="note__dates"></div>
               </div>
               <div class="note__management">
-                <div><img src="./public/listItemUnarchive.png" alt="Unarchive note"></div>
-                <div><img src="./public/listItemRemove.png" alt="Remove note"></div>
-              </div>
+                <div class="unarchive"></div>
+                <div class="remove"></div></div>
             </div>
           </div>
       </div>
     </main>
-    <script src="https://kit.fontawesome.com/def6968b68.js" crossorigin="anonymous"></script>
     <script type="module" src="/Script/index.js"></script>
   </body>
 </html>

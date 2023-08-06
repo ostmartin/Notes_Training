@@ -1,136 +1,172 @@
 const createNoteButton = document.querySelector('#createNewNote'),
       openArchiveButton = document.querySelector('#openArchive'),
       openBinButton = document.querySelector('#openBin'),
-      activeNotesList = document.querySelector('.notes__list'),
-      summaryNotesList = document.querySelector('.summary__list');
+      activeNotesList = document.querySelector('#activeNotesList'),
+      notesList = document.querySelector('.notes__list'),
+      summaryNotesList = document.querySelector('.summary__list'),
+      modalWindow = document.querySelector('.modal'),
+      creationForm = document.querySelector('form');
 
-const activeNotes = [{
-    name: 'Shopping list', 
+let activeNotes = [{
+    title: 'Shopping list', 
     content: 'Tomatoes, bread', 
     category: 'Task', 
-    dateOfCreate: 'April 20, 2021', 
-    active: true,
-    parent: '.notes__list',
-    classes: '.notes__list-item'
+    dateOfCreate: 'April 20, 2021',
+    dates: ''
 }, {
-    name: 'The theory of evolution', 
+    title: 'The theory of evolution', 
     content: 'The evolution theory', 
     category: 'Random Thought', 
-    dateOfCreate: 'April 27, 2021', 
-    active: true,
-    parent: '.notes__list',
-    classes: '.notes__list-item'
+    dateOfCreate: 'April 27, 2021',
+    dates: ''
 }, {
-    name: 'New Feature', 
+    title: 'New Feature', 
     content: 'Implement new task button', 
     category: 'Idea', 
-    dateOfCreate: 'May 05, 2021', 
-    active: true,
-    parent: '.notes__list',
-    classes: '.notes__list-item'
+    dateOfCreate: 'May 05, 2021',
+    dates: ''
 }, {
-    name: 'Books', 
+    title: 'Books', 
     content: 'The Lean Startup', 
     category: 'Task', 
-    dateOfCreate: 'May 15, 2021', 
-    active: true,
-    parent: '.notes__list',
-    classes: '.notes__list-item'
-}],
-      archivedNotes = [];
+    dateOfCreate: 'May 15, 2021',
+    dates: ''
+}];
 
+let archivedNotes = [];
 
+parseNotesList('#activeNotesList');
 
 class Note {
-    constructor(name, content, category, dateOfCreate, active, parentSelector, ...classes) {
-        this.name = name;
-        this.dateOfCreate = dateOfCreate;
+    constructor(title, category, content) {
+        this.title = title;
+        this.dateOfCreate = getCurrentDate();
         this.category = category;
         this.content = content;
-        this.active = active;
-        this.parent = document.querySelector(parentSelector),
-        this.classes = classes;
-        this.dates = this.getDates(this.content);
-    }
-
-    getDates (description) {
-        const dateRegex = /\d{1,2}\/\d{1,2}\/\d{4}/g;
-        if (dateRegex.test(description)) {
-            return description.match(dateRegex).join(', ');
-        }
-        return "";
-    }
-
-    render() {
-        const element = document.createElement('div');
-        let description = this.content;
-
-        if (this.classes.length === 0) {
-            this.element = 'notes__list-item';
-            element.classList.add(this.element);
-        } else {
-            element.classList.add(this.classes);
-        }
-
-        if (this.content.length >= 14) {
-            description = this.content.slice(0, 12) + '...';
-        }
-
-        element.innerHTML = `<div class="notes__list-item">
-                                <div class="list-title">${this.name}</div>
-                                <div class="note__content-wrapper">
-                                <div class="note__create-date">${this.dateOfCreate}</div>
-                                <div class="note__category">${this.category}</div>
-                                <div class="note__content">${description}</div>
-                                <div class="note__dates">${this.dates}</div>
-                                </div>
-                                <div class="note__management">
-                                <div class="edit__note"><img src="./public/listItemChange.png" alt="Change note"></div>
-                                <div class="archive__note"><img src="./public/listItemArchive.png" alt="Archive note"></div>
-                                <div class="remove__note"><img src="./public/listItemRemove.png" alt="Remove note"></div>
-                                </div>
-                            </div>`;
-        this.parent.append(element);
+        this.dates = getDates(content);
     }
 }
 
-parseNotesList('.notes__list');
+createNoteButton.addEventListener('click', () => openModalWindow('.modal', '.create__form-wrapper'));
 
-createNoteButton.addEventListener('click', () => {
-    openModalWindow('.modal');
-    openModalWindow('.create__form-wrapper');
+creationForm.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-    const addNoteForm = document.querySelector('#creation_form');
+    getUserData(creationForm);
 
-    addNoteForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+    creationForm.reset();
+});
 
-        const formData = new FormData(addNoteForm);
+modalWindow.addEventListener('click', (event) => {
+    const target = event.target;
+    
+    if(target.classList.contains('close__modal') || target.classList.contains('modal')) {
+        closeModalWindow(modalWindow);
+    }
+});
 
-        const noteData = Object.fromEntries(formData.entries());
-        noteData.dateOfCreate = getCurrentDate();
-        noteData.active = true;
-        noteData.parent = '.notes__list'
-        noteData.classes = '.notes__list-item';
-        console.log(noteData);
-
-        activeNotes.push(noteData);
-        console.log(activeNotes)
-        parseNotesList(noteData.parent);
-
-        addNoteForm.reset();
-
-        closeModalWindow('.modal');
-        closeModalWindow('.create__form-wrapper');
-    })
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalWindow.classList.contains('show')) {
+        closeModalWindow(modalWindow);
+    }
 })
 
+notesList.addEventListener('click', (event) => {
+    const target = event.target;
+    const currentNote = target.parentNode.parentNode;
 
-function parseNotesList (parentElem) {
-    document.querySelector(parentElem).innerHTML ='';
-    activeNotes.forEach(({name, content, category, dateOfCreate, active, parent}) => {
-        new Note(name, content, category, dateOfCreate, active, parent, '.notes__list-item').render();
+    if (target.classList.contains('edit')) {
+        editeNote();
+    }
+
+    if (target.classList.contains('archive')) {
+        noteToArchive();
+    }
+
+    if (target.classList.contains('remove')) {
+        removeCurrentNote(currentNote, notesList);
+    }
+})
+
+function openModalWindow(modalSelector, contentSelector) {
+    const modal = document.querySelector(modalSelector),
+          contentBox = document.querySelector(contentSelector);
+
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+
+    contentBox.classList.add('show');
+    contentBox.classList.remove('hide');
+}
+
+function closeModalWindow(modal) {
+    const modalWindow = modal;
+    modalWindow.classList.remove('show');
+    modalWindow.classList.add('hide');
+}
+
+function getUserData(form) {
+    const formData = new FormData(form);
+
+    const noteData = Object.fromEntries(formData.entries());
+
+    const {title, category, content} = noteData;
+
+    const newNote = new Note(title, category, content);
+
+    activeNotes.push(newNote);
+    console.log(activeNotes);
+
+    renderNote(newNote, '#activeNotesList');
+    closeModalWindow(modalWindow);
+}
+
+function parseNotesList(parent) {
+    activeNotes.forEach(note => {
+        renderNote(note, parent);
     })
+}
+
+function renderNote(note, parentSelector) {
+    const parent = document.querySelector(parentSelector);
+    const element = document.createElement('div');
+
+    let description = note.content;
+    let dates = note.dates;
+    
+    element.classList.add('notes__list-item');
+
+    if (note.content.length >= 14) {
+        description = note.content.slice(0, 14) + '...';
+    }
+
+    if (note.dates.length >= 14) {
+        dates = note.content.slice(0, 14) + '...';
+    }
+
+
+    element.innerHTML = `<div class="list-title">${note.title}</div>
+                        <div class="note__content-wrapper">
+                            <div class="note__create-date">${note.dateOfCreate}</div>
+                            <div class="note__category">${note.category}</div>
+                            <div class="note__content">${description}</div>
+                            <div class="note__dates">${dates}</div>
+                        </div>
+                        <div class="note__management">
+                            <div class="edit"></div>
+                            <div class="archive"></div>
+                            <div class="remove"></div>
+                        </div>`;
+    parent.append(element);
+}
+
+function removeCurrentNote(noteElem, parentElem) {
+    const noteElemsList = [...parentElem.children];
+
+    const index = noteElemsList.indexOf(noteElem);
+    
+    noteElem.remove();
+    activeNotes = activeNotes.filter((note, i) => i !== index);
 }
 
 function getCurrentDate() {
@@ -144,30 +180,10 @@ function getCurrentDate() {
     return `${monthName} ${day}, ${year}`;
 }
 
-function openModalWindow(selector) {
-    const modalWindow = document.querySelector(selector);
-    modalWindow.classList.add('show');
-    modalWindow.classList.remove('hide');
-
-    modalWindow.addEventListener('click', (e) => {
-        let target = e.target;
-        
-        if (target === modalWindow || target.classList.contains('close__modal')) {
-            closeModalWindow('.modal');
-            closeModalWindow('.create__form-wrapper');
-        }
-    });
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalWindow.classList.contains('show')) {
-            closeModalWindow('.modal');
-            closeModalWindow('.create__form-wrapper');
-        }
-    })
-}
-
-function closeModalWindow(selector) {
-    const modalWindow = document.querySelector(selector);
-    modalWindow.classList.remove('show');
-    modalWindow.classList.add('hide');
+function getDates (content) {
+    const dateRegex = /\d{1,2}\/\d{1,2}\/\d{4}/g;
+    if (dateRegex.test(content)) {
+        return content.match(dateRegex).join(', ');
+    }
+    return "";
 }
