@@ -1,11 +1,19 @@
 const createNoteButton = document.querySelector('#createNewNote'),
       openArchiveButton = document.querySelector('#openArchive'),
       openBinButton = document.querySelector('#openBin'),
-      activeNotesList = document.querySelector('#activeNotesList'),
-      notesList = document.querySelector('.notes__list'),
+      notesLists = document.querySelectorAll('.notes__list'),
       summaryNotesList = document.querySelector('.summary__list'),
       modalWindow = document.querySelector('.modal'),
       creationForm = document.querySelector('form');
+
+
+      
+const taskSumActive = document.querySelector('#taskSumActive'),
+    taskSumArchive = document.querySelector('#taskSumArchive'),
+    randomSumActive = document.querySelector('#randomSumActive'),
+    randomSumArchive = document.querySelector('#randomSumArchive'),
+    ideaSumActive = document.querySelector('#ideaSumActive'),
+    ideaSumArchive = document.querySelector('#ideaSumArchive');
 
 let activeNotes = [{
     title: 'Shopping list', 
@@ -35,7 +43,8 @@ let activeNotes = [{
 
 let archivedNotes = [];
 
-parseNotesList('#activeNotesList');
+parseNotesList('#activeNotesList', '#modalArchive');
+updateSumTable();
 
 class Note {
     constructor(title, category, content) {
@@ -49,12 +58,15 @@ class Note {
 
 createNoteButton.addEventListener('click', () => openModalWindow('.modal', '.create__form-wrapper'));
 
+openArchiveButton.addEventListener('click', () => openModalWindow('.modal', '#modalArchive'));
+
 creationForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
     getUserData(creationForm);
 
     creationForm.reset();
+    updateSumTable();
 });
 
 modalWindow.addEventListener('click', (event) => {
@@ -71,21 +83,32 @@ document.addEventListener('keydown', (e) => {
     }
 })
 
-notesList.addEventListener('click', (event) => {
-    const target = event.target;
-    const currentNote = target.parentNode.parentNode;
-
-    if (target.classList.contains('edit')) {
-        editeNote();
-    }
-
-    if (target.classList.contains('archive')) {
-        noteToArchive();
-    }
-
-    if (target.classList.contains('remove')) {
-        removeCurrentNote(currentNote, notesList);
-    }
+notesLists.forEach(list => {
+    list.addEventListener('click', (event) => {
+        const target = event.target;
+        const currentNote = target.parentNode.parentNode;
+        const currentParent = currentNote.parentNode;
+    
+        if (target.classList.contains('edit')) {
+            editeNote();
+        }
+    
+        if (target.classList.contains('archive')) {
+            moveNote(currentNote, activeNotes, archivedNotes, currentParent);
+        }
+    
+        if (target.classList.contains('remove')) {
+            if (currentParent.id === 'activeNotesList') {
+                removeNote(currentNote, currentParent, activeNotes);
+            } else if (currentParent.id === 'modalArchive') {
+                removeNote(currentNote, currentParent, archivedNotes);
+            }
+        }
+    
+        if (target.classList.contains('unarchive')) {
+            moveNote(currentNote, archivedNotes, activeNotes, currentParent);
+        }
+    })
 })
 
 function openModalWindow(modalSelector, contentSelector) {
@@ -99,10 +122,15 @@ function openModalWindow(modalSelector, contentSelector) {
     contentBox.classList.remove('hide');
 }
 
-function closeModalWindow(modal) {
-    const modalWindow = modal;
+function closeModalWindow(modalSelector) {
+    const modalWindow = modalSelector;
+    const modalContent = modalWindow.querySelector('.show');
+
     modalWindow.classList.remove('show');
     modalWindow.classList.add('hide');
+
+    modalContent.classList.remove('show');
+    modalContent.classList.add('hide');
 }
 
 function getUserData(form) {
@@ -115,19 +143,22 @@ function getUserData(form) {
     const newNote = new Note(title, category, content);
 
     activeNotes.push(newNote);
-    console.log(activeNotes);
 
-    renderNote(newNote, '#activeNotesList');
+    renderNote(newNote, '#activeNotesList', false);
     closeModalWindow(modalWindow);
 }
 
-function parseNotesList(parent) {
+function parseNotesList(parentActive, parentArchive) {
     activeNotes.forEach(note => {
-        renderNote(note, parent);
+        renderNote(note, parentActive, false);
+    })
+
+    archivedNotes.forEach(note => {
+        renderNote(note, parentArchive, true);
     })
 }
 
-function renderNote(note, parentSelector) {
+function renderNote(note, parentSelector, archived) {
     const parent = document.querySelector(parentSelector);
     const element = document.createElement('div');
 
@@ -144,29 +175,44 @@ function renderNote(note, parentSelector) {
         dates = note.content.slice(0, 14) + '...';
     }
 
+    element.innerHTML = checkNoteForArchive(note, archived, description, dates);
 
-    element.innerHTML = `<div class="list-title">${note.title}</div>
+    parent.append(element);
+}
+
+function checkNoteForArchive(note, archived, description, dates) {
+    let html = `<div class="list-title">${note.title}</div>
                         <div class="note__content-wrapper">
                             <div class="note__create-date">${note.dateOfCreate}</div>
                             <div class="note__category">${note.category}</div>
                             <div class="note__content">${description}</div>
                             <div class="note__dates">${dates}</div>
-                        </div>
-                        <div class="note__management">
-                            <div class="edit"></div>
-                            <div class="archive"></div>
-                            <div class="remove"></div>
                         </div>`;
-    parent.append(element);
+    
+    if (archived) {
+        html += `<div class="note__management">
+                                <div class="unarchive"></div>
+                                <div class="remove"></div>
+                             </div>`
+    } else {
+        html += `<div class="note__management">
+                                <div class="edit"></div>
+                                <div class="archive"></div>
+                                <div class="remove"></div>
+                             </div>`
+
+    }
+    return html;
 }
 
-function removeCurrentNote(noteElem, parentElem) {
+function removeNote(noteElem, parentElem, notesArr) {
     const noteElemsList = [...parentElem.children];
 
     const index = noteElemsList.indexOf(noteElem);
-    
+
+    notesArr.splice(index, 1);
     noteElem.remove();
-    activeNotes = activeNotes.filter((note, i) => i !== index);
+    updateSumTable();
 }
 
 function getCurrentDate() {
@@ -186,4 +232,57 @@ function getDates (content) {
         return content.match(dateRegex).join(', ');
     }
     return "";
+}
+
+function updateSumTable() {
+    taskSumActive.textContent = getSum(activeNotes, 'Task');
+    taskSumArchive.textContent = getSum(archivedNotes, 'Task');
+
+    randomSumActive.textContent = getSum(activeNotes, 'Random Thought');
+    randomSumArchive.textContent = getSum(archivedNotes, 'Random Thought');
+
+    ideaSumActive.textContent = getSum(activeNotes, 'Idea');
+    ideaSumArchive.textContent = getSum(archivedNotes, 'Idea');
+}
+
+function getSum(arr, category) {
+    return arr.reduce((sum, note) => {
+        if (note.category === category) {
+            sum += 1;
+        }
+
+        return sum;
+    }, 0)
+}
+
+function moveNote(noteElem, sourceArr, targetArr, parentElem) {
+    const noteElemsList = [...parentElem.children];
+    const index = noteElemsList.indexOf(noteElem);
+    
+    targetArr.push(sourceArr[index]);
+
+    if(sourceArr === activeNotes) {
+        renderNote(sourceArr[index], '#modalArchive', true);
+    } else {        
+        renderNote(sourceArr[index], '#activeNotesList', false);
+    }
+
+    // sourceArr = sourceArr.filter((note, i) => i !== index);
+    sourceArr.splice(index, 1);
+    noteElem.remove();
+
+    updateSumTable();
+}
+
+function unarchiveCurrentNote(noteElem, parentElem) {
+    const noteElemsList = [...parentElem.children];
+    const index = noteElemsList.indexOf(noteElem);
+    
+    activeNotes.push(archivedNotes[index]);
+    renderNote(archivedNotes[index], '#activeNotesList', false);
+
+    archivedNotes = archivedNotes.filter((note, i) => i !== index);
+    noteElem.remove();
+
+    console.log(activeNotes, archivedNotes);
 }
