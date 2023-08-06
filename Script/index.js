@@ -267,22 +267,8 @@ function moveNote(noteElem, sourceArr, targetArr, parentElem) {
         renderNote(sourceArr[index], '#activeNotesList', false);
     }
 
-    // sourceArr = sourceArr.filter((note, i) => i !== index);
     sourceArr.splice(index, 1);
     noteElem.remove();
 
     updateSumTable();
-}
-
-function unarchiveCurrentNote(noteElem, parentElem) {
-    const noteElemsList = [...parentElem.children];
-    const index = noteElemsList.indexOf(noteElem);
-    
-    activeNotes.push(archivedNotes[index]);
-    renderNote(archivedNotes[index], '#activeNotesList', false);
-
-    archivedNotes = archivedNotes.filter((note, i) => i !== index);
-    noteElem.remove();
-
-    console.log(activeNotes, archivedNotes);
 }
