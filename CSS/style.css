@@ -99,7 +99,7 @@ section{
 }
 
 .edit{
-    background-image: url('/public/listItemChange.png');
+    background-image: url('/img/listItemChange.png');
     background-size: contain;
     background-repeat: no-repeat;
     width: 4rem;
@@ -107,7 +107,7 @@ section{
 }
 
 .archive{
-    background-image: url('/public/listItemArchive.png');
+    background-image: url('/img/listItemArchive.png');
     background-size: contain;
     background-repeat: no-repeat;
     width: 4rem;
@@ -115,7 +115,7 @@ section{
 }
 
 .unarchive{
-    background-image: url('/public/listItemUnarchive.png');
+    background-image: url('/img/listItemUnarchive.png');
     background-size: contain;
     background-repeat: no-repeat;
     width: 4rem;
@@ -123,7 +123,7 @@ section{
 }
 
 .remove{
-    background-image: url('/public/listItemRemove.png');
+    background-image: url('/img/listItemRemove.png');
     background-size: contain;
     background-repeat: no-repeat;
     width: 4rem;
