@@ -29,36 +29,7 @@
                 <div id="openBin" class="remove"></div>
               </div>
             </div>
-            <div id="activeNotesList" class="notes__list">
-              <!-- <div class="notes__list-item">
-                <div class="list-title">Shopping list</div>
-                <div class="note__content-wrapper">
-                  <div class="note__create-date">April 20, 2021</div>
-                  <div class="note__category">Task</div>
-                  <div class="note__content">Tomatoes, bread</div>
-                  <div class="note__dates"></div>
-                </div>
-                <div class="note__management">
-                  <div id="edit-button" class="edit"></div>
-                  <div id="to__archive-button" class="archive"></div>
-                  <div id="remove-button" class="remove"></div>
-                </div>
-              </div>
-              <div class="notes__list-item">
-                <div class="list-title">The theory of evolution</div>
-                <div class="note__content-wrapper">
-                  <div class="note__create-date">April 21, 2021</div>
-                  <div class="note__category">Random Thought</div>
-                  <div class="note__content">The evolution...</div>
-                  <div class="note__dates"></div>
-                </div>
-                <div class="note__management">
-                  <div class="edit"></div>
-                  <div class="archive"></div>
-                  <div class="remove"></div>
-                </div>
-              </div> -->
-            </div>
+            <div id="activeNotesList" class="notes__list"></div>
           </div>
           <button id="createNewNote">Create note</button>
         </section>
@@ -98,73 +69,30 @@
             <form action="#">
               <div class="create__note-title">
                 <p>Name:</p>
-                <input type="text" name="title" class="create__note-title-input" placeholder="Title" required></input>
+                <input id="formNoteTitle" type="text" name="title" class="create__note-title-input" placeholder="Title" required></input>
               </div>
               <div class="create__note-content">
                 <p>Description:</p>
-                <textarea name="content" type="text" class="create__note-content-input" placeholder="Some thoughts..." required></textarea>
+                <textarea id="formNoteContent" name="content" type="text" class="create__note-content-input" placeholder="Some thoughts..." required></textarea>
               </div>
               <div class="create__note-category">
                 <p>Choose category</p>
-                <select name="category">
+                <select id="formNoteCategory" name="category">
                   <option value="Task">Task</option>
                   <option value="Idea">Idea</option>
                   <option value="Random Thought">Random thought</option>
                 </select>
               </div>
-              <button id="create" class="create__note-btn">Add note</button>
-              <!-- <input id="edit" type="button" value="Change" class="create__note-btn"> -->
+              <button id="create" class="create__note-btn">Save</button>
             </form>
           </div>
-          <div id="modalbin" class="notes__list hide">
-            <div class="notes__list-item">
-              <div class="list-title">Shopping list</div>
-              <div class="note__content-wrapper">
-                <div class="note__create-date">April 20, 2021</div>
-                <div class="note__category">Task</div>
-                <div class="note__content">Tomatoes, bread</div>
-                <div class="note__dates"></div>
-              </div>
-            </div>
-            <div class="notes__list-item">
-              <div class="list-title">The theory of evolution</div>
-              <div class="note__content-wrapper">
-                <div class="note__create-date">April 21, 2021</div>
-                <div class="note__category">Random Thought</div>
-                <div class="note__content">The evolution...</div>
-                <div class="note__dates"></div>
-              </div>
-            </div>
-          </div>
-          <div id="modalArchive" class="notes__list hide">
-            <div class="notes__list-item">
-              <div class="list-title">Shopping list</div>
-              <div class="note__content-wrapper">
-                <div class="note__create-date">April 20, 2021</div>
-                <div class="note__category">Task</div>
-                <div class="note__content">Tomatoes, bread</div>
-                <div class="note__dates"></div>
-              </div>
-              <div class="note__management">
-                <div class="unarchive"></div>
-                <div class="remove"></div>
-              </div>
-            </div>
-            <div class="notes__list-item">
-              <div class="list-title">The theory of evolution</div>
-              <div class="note__content-wrapper">
-                <div class="note__create-date">April 21, 2021</div>
-                <div class="note__category">Random Thought</div>
-                <div class="note__content">The evolution...</div>
-                <div class="note__dates"></div>
-              </div>
-              <div class="note__management">
-                <div class="unarchive"></div>
-                <div class="remove"></div></div>
-            </div>
-          </div>
+          <div id="modalArchive" class="notes__list hide"></div>
       </div>
     </main>
-    <script type="module" src="/Script/index.js"></script>
+    <script type="module" src="/src/js/modules/DataModule.js"></script>
+    <script type="module" src="/src/js/modules/DOMModule.js"></script>
+    <script type="module" src="/src/js/modules/ModalModule.js"></script>
+    <script type="module" src="/src/js/modules/NotesModule.js"></script>
+    <script type="module" src="/src/js/App.js"></script>
   </body>
 </html>
