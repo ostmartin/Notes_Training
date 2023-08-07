@@ -69,15 +69,15 @@
             <form action="#">
               <div class="create__note-title">
                 <p>Name:</p>
-                <input type="text" name="title" class="create__note-title-input" placeholder="Title" required></input>
+                <input id="formNoteTitle" type="text" name="title" class="create__note-title-input" placeholder="Title" required></input>
               </div>
               <div class="create__note-content">
                 <p>Description:</p>
-                <textarea name="content" type="text" class="create__note-content-input" placeholder="Some thoughts..." required></textarea>
+                <textarea id="formNoteContent" name="content" type="text" class="create__note-content-input" placeholder="Some thoughts..." required></textarea>
               </div>
               <div class="create__note-category">
                 <p>Choose category</p>
-                <select name="category">
+                <select id="formNoteCategory" name="category">
                   <option value="Task">Task</option>
                   <option value="Idea">Idea</option>
                   <option value="Random Thought">Random thought</option>

@@ -60,14 +60,22 @@ createNoteButton.addEventListener('click', () => openModalWindow('.modal', '.cre
 
 openArchiveButton.addEventListener('click', () => openModalWindow('.modal', '#modalArchive'));
 
-creationForm.addEventListener('submit', (event) => {
+creationForm.addEventListener('submit', createNoteByForm);
+
+
+function createNoteByForm(event) {
     event.preventDefault();
 
-    getUserData(creationForm);
+    const newNote = getUserData(creationForm);
 
-    creationForm.reset();
+    activeNotes.push(newNote);
+
+    renderNote(newNote, '#activeNotesList', false);
+    closeModalWindow(modalWindow);
     updateSumTable();
-});
+}
+
+
 
 modalWindow.addEventListener('click', (event) => {
     const target = event.target;
@@ -90,7 +98,7 @@ notesLists.forEach(list => {
         const currentParent = currentNote.parentNode;
     
         if (target.classList.contains('edit')) {
-            editeNote();
+            editNote(currentNote, currentParent);
         }
     
         if (target.classList.contains('archive')) {
@@ -140,15 +148,15 @@ function getUserData(form) {
 
     const {title, category, content} = noteData;
 
-    const newNote = new Note(title, category, content);
+    creationForm.reset();
 
-    activeNotes.push(newNote);
-
-    renderNote(newNote, '#activeNotesList', false);
-    closeModalWindow(modalWindow);
+    return new Note(title, category, content);
 }
 
 function parseNotesList(parentActive, parentArchive) {
+    document.querySelector(parentActive).innerHTML = '';
+    document.querySelector(parentArchive).innerHTML = '';
+
     activeNotes.forEach(note => {
         renderNote(note, parentActive, false);
     })
@@ -271,4 +279,36 @@ function moveNote(noteElem, sourceArr, targetArr, parentElem) {
     noteElem.remove();
 
     updateSumTable();
+}
+
+function editNote(noteElem, parentElem) {
+    openModalWindow('.modal', '.create__form-wrapper');
+    creationForm.removeEventListener('submit', createNoteByForm);
+    
+    const noteElemsList = [...parentElem.children];
+    const index = noteElemsList.indexOf(noteElem);
+
+    const {title, content, category} = activeNotes[index];
+
+    const currTitle = document.querySelector('#formNoteTitle');
+    const currContent = document.querySelector('#formNoteContent');
+    const currCategory = document.querySelector('#formNoteCategory');
+
+    currTitle.value = title;
+    currContent.value = content;
+    currCategory.value = category;
+
+    creationForm.addEventListener('submit', editNoteHandler);
+
+    function editNoteHandler(event) {
+        event.preventDefault();
+        const editedNote = getUserData(creationForm);
+
+        closeModalWindow(modalWindow);    
+        activeNotes.splice(index, 1, editedNote);
+        creationForm.removeEventListener('submit', editNoteHandler);
+        creationForm.addEventListener('submit', createNoteByForm);
+        parseNotesList('#activeNotesList', '#modalArchive');
+        updateSumTable();
+    }
 }
