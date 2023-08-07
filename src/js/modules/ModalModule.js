@@ -5,6 +5,7 @@ function openModalWindow(modalSelector, contentSelector) {
     const modal = document.querySelector(modalSelector),
           contentBox = document.querySelector(contentSelector);
 
+    document.body.style.overflow = 'hidden';
     modal.classList.add('show');
     modal.classList.remove('hide');
 
@@ -15,6 +16,7 @@ function openModalWindow(modalSelector, contentSelector) {
 function closeModalWindow(modalSelector) {
     const modalWindow = modalSelector;
     const modalContent = modalWindow.querySelector('.show');
+    document.body.style.overflow = '';
 
     modalWindow.classList.remove('show');
     modalWindow.classList.add('hide');

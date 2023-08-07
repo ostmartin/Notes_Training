@@ -1,15 +1,19 @@
 export {getUserData, getCurrentDate, getDates, updateSumTable};
 
 function getUserData(form, note) {
-    const formData = new FormData(form);
+    try {
+        const formData = new FormData(form);
 
-    const noteData = Object.fromEntries(formData.entries());
-
-    const {title, category, content} = noteData;
-
-    form.reset();
-
-    return new note(title, category, content);
+        const noteData = Object.fromEntries(formData.entries());
+    
+        const {title, category, content} = noteData;
+    
+        form.reset();
+    
+        return new note(title, category, content);
+    } catch (error) {
+        alert("Error while getting user data:", error)
+    }
 }
 
 function getCurrentDate() {
