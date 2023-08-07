@@ -112,14 +112,22 @@ function notesModule(createNoteButton, openArchiveButton, creationForm, notesLis
     function parseNotesList(parentActive, parentArchive) {
         document.querySelector(parentActive).innerHTML = '';
         document.querySelector(parentArchive).innerHTML = '';
-    
-        activeNotes.forEach(note => {
-            renderNote(note, parentActive, false);
-        })
-    
-        archivedNotes.forEach(note => {
-            renderNote(note, parentArchive, true);
-        })
+        
+        if (activeNotes.length > 0) {
+            activeNotes.forEach(note => {
+                renderNote(note, parentActive, false);
+            })
+        } else {
+            document.querySelector(parentActive).innerHTML = '<div class="emptyDiv">Empty...</div>';
+        }
+
+        if (archivedNotes.length > 0) {
+            archivedNotes.forEach(note => {
+                renderNote(note, parentArchive, true);
+            })
+        } else {
+            document.querySelector(parentArchive).innerHTML = '<div class="emptyDiv">Empty...</div>';
+        }
     }
 
     function renderNote(note, parentSelector, archived) {
@@ -180,21 +188,37 @@ function notesModule(createNoteButton, openArchiveButton, creationForm, notesLis
     }
 
     function moveNote(noteElem, sourceArr, targetArr, parentElem) {
-        const noteElemsList = [...parentElem.children];
-        const index = noteElemsList.indexOf(noteElem);
+        try {
+            const noteElemsList = [...parentElem.children];
+            const index = noteElemsList.indexOf(noteElem);
+            
+            targetArr.push(sourceArr[index]);
         
-        targetArr.push(sourceArr[index]);
-    
-        if(sourceArr === activeNotes) {
-            renderNote(sourceArr[index], '#modalArchive', true);
-        } else {        
-            renderNote(sourceArr[index], '#activeNotesList', false);
+            if(sourceArr === activeNotes) {
+                renderNote(sourceArr[index], '#modalArchive', true);
+            } else {        
+                renderNote(sourceArr[index], '#activeNotesList', false);
+            }
+        
+            sourceArr.splice(index, 1);
+            noteElem.remove();
+        
+            updateSumTable(activeNotes, archivedNotes, taskSumActive, taskSumArchive, randomSumActive, randomSumArchive, ideaSumActive, ideaSumArchive);
+        } catch (error) {
+            console.log(`Error while moving note: ${error}`)
+
+            const errDiv = document.createElement('div');
+            const errDivText =  document.createElement('p');
+            errDiv.classList.add('errorMoving');
+            errDiv.append(errDivText)
+            document.querySelector('.content-wrapper').append(errDiv)
+            errDivText.textContent = 'Unexpected error';
+            
+            let timerId = setTimeout(() => {
+                errDiv.remove();
+                clearTimeout(timerId);
+            }, 3000);
         }
-    
-        sourceArr.splice(index, 1);
-        noteElem.remove();
-    
-        updateSumTable(activeNotes, archivedNotes, taskSumActive, taskSumArchive, randomSumActive, randomSumArchive, ideaSumActive, ideaSumArchive);
     }
     
     function editNote(noteElem, parentElem) {
