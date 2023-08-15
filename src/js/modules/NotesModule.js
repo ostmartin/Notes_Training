@@ -113,21 +113,13 @@ function notesModule(createNoteButton, openArchiveButton, creationForm, notesLis
         document.querySelector(parentActive).innerHTML = '';
         document.querySelector(parentArchive).innerHTML = '';
         
-        if (activeNotes.length > 0) {
             activeNotes.forEach(note => {
                 renderNote(note, parentActive, false);
             })
-        } else {
-            document.querySelector(parentActive).innerHTML = '<div class="emptyDiv">Empty...</div>';
-        }
 
-        if (archivedNotes.length > 0) {
             archivedNotes.forEach(note => {
                 renderNote(note, parentArchive, true);
             })
-        } else {
-            document.querySelector(parentArchive).innerHTML = '<div class="emptyDiv">Empty...</div>';
-        }
     }
 
     function renderNote(note, parentSelector, archived) {
@@ -196,7 +188,7 @@ function notesModule(createNoteButton, openArchiveButton, creationForm, notesLis
         
             if(sourceArr === activeNotes) {
                 renderNote(sourceArr[index], '#modalArchive', true);
-            } else {        
+            } else {
                 renderNote(sourceArr[index], '#activeNotesList', false);
             }
         
